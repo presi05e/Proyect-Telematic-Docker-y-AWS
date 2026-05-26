@@ -183,7 +183,7 @@ resource "aws_instance" "f1_server" {
     chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
     # --- Clonar el repositorio ---
-    git clone https://github.com/TU_USUARIO/f1-tech-hub.git /opt/f1-tech-hub
+git clone https://github.com/presi05e/Proyect-Telematic-Docker-y-AWS.git /opt/f1-tech-hub
 
     # --- Levantar la aplicación ---
     cd /opt/f1-tech-hub
