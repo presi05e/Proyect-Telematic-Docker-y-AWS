@@ -1,7 +1,7 @@
 # =============================================================
 # app.py — Aplicación principal Flask
 # Proyecto Final Telemática — F1 Tech Hub
-# Autor: [Tu Nombre] | Universidad | Semestre 3
+# Autor: Esteban Présiga Posada | UPB | Semestre 3
 # =============================================================
 
 from flask import Flask, render_template, jsonify
