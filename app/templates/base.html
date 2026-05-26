@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}F1 Tech Hub{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* =====================================================
+           VARIABLES Y RESET GLOBAL
+           ===================================================== */
+        :root {
+            --clr-bg:       #0a0a0f;
+            --clr-surface:  #111118;
+            --clr-card:     #16161f;
+            --clr-border:   rgba(255,255,255,0.07);
+            --clr-accent:   #e10600;
+            --clr-accent2:  #ff6b35;
+            --clr-gold:     #ffd700;
+            --clr-text:     #e8e8f0;
+            --clr-muted:    #6b6b80;
+            --font-display: 'Orbitron', monospace;
+            --font-body:    'Rajdhani', sans-serif;
+            --radius:       8px;
+            --transition:   0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--clr-bg);
+            color: var(--clr-text);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Patrón de fondo tipo circuito */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(225,6,0,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(225,6,0,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* =====================================================
+           NAVBAR
+           ===================================================== */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10,10,15,0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--clr-border);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-logo {
+            width: 36px; height: 36px;
+            background: var(--clr-accent);
+            clip-path: polygon(20% 0%,80% 0%,100% 50%,80% 100%,20% 100%,0% 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .nav-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--clr-text);
+            letter-spacing: 2px;
+        }
+        .nav-title span { color: var(--clr-accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--clr-muted);
+            text-decoration: none;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color var(--transition);
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--clr-accent);
+            transition: width var(--transition);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active { color: var(--clr-text); }
+        .nav-links a:hover::after,
+        .nav-links a.active::after { width: 100%; }
+
+        /* =====================================================
+           CONTENIDO PRINCIPAL
+           ===================================================== */
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        /* =====================================================
+           HERO / ENCABEZADOS
+           ===================================================== */
+        .page-hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+
+        .page-hero .label {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            letter-spacing: 4px;
+            color: var(--clr-accent);
+            text-transform: uppercase;
+            border: 1px solid rgba(225,6,0,0.3);
+            padding: 4px 16px;
+            border-radius: 999px;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -1px;
+            margin-bottom: 1.2rem;
+        }
+
+        .page-hero h1 em {
+            font-style: normal;
+            color: var(--clr-accent);
+        }
+
+        .page-hero p {
+            color: var(--clr-muted);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* =====================================================
+           CARDS Y GRIDS
+           ===================================================== */
+        .card {
+            background: var(--clr-card);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: border-color var(--transition), transform var(--transition);
+        }
+        .card:hover {
+            border-color: rgba(225,6,0,0.35);
+            transform: translateY(-3px);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--clr-border);
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .section-header span {
+            font-size: 0.85rem;
+            color: var(--clr-muted);
+            font-weight: 300;
+        }
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+            color: var(--clr-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--clr-border);
+        }
+        footer strong { color: var(--clr-accent); }
+
+        /* =====================================================
+           ANIMACIONES
+           ===================================================== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in   { animation: fadeInUp 0.6s ease both; }
+        .fade-in-d1 { animation-delay: 0.1s; }
+        .fade-in-d2 { animation-delay: 0.2s; }
+        .fade-in-d3 { animation-delay: 0.3s; }
+
+        /* =====================================================
+           RESPONSIVE
+           ===================================================== */
+        @media (max-width: 768px) {
+            nav { padding: 0 1rem; }
+            .nav-links { gap: 1rem; }
+            .nav-links a { font-size: 0.8rem; }
+            main { padding: 2rem 1rem 4rem; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+    {% block extra_style %}{% endblock %}
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-brand">
+        <div class="nav-logo">🏁</div>
+        <span class="nav-title">F1 <span>TECH</span> HUB</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="/"           {% if request.path == '/'           %}class="active"{% endif %}>Inicio</a></li>
+        <li><a href="/teams"      {% if request.path == '/teams'      %}class="active"{% endif %}>Equipos</a></li>
+        <li><a href="/technology" {% if request.path == '/technology' %}class="active"{% endif %}>Tecnología</a></li>
+    </ul>
+</nav>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <p>F1 Tech Hub &nbsp;|&nbsp; Proyecto Final Telemática &nbsp;|&nbsp;
+       Desplegado con <strong>Docker + AWS</strong> &nbsp;|&nbsp;
+       &copy; {{ current_year if current_year else '2025' }}
+    </p>
+</footer>
+
+{% block extra_script %}{% endblock %}
+</body>
+</html>

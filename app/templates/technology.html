@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Tecnología F1 — F1 Tech Hub{% endblock %}
+
+{% block extra_style %}
+<style>
+    .tech-card {
+        background: var(--clr-card);
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius);
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: border-color var(--transition), transform var(--transition);
+    }
+    .tech-card:hover { border-color: rgba(225,6,0,0.35); transform: translateY(-4px); }
+    .tech-card::after {
+        content: '';
+        position: absolute;
+        top: 0; right: 0;
+        width: 120px; height: 120px;
+        background: radial-gradient(circle at top right, rgba(225,6,0,0.06), transparent 70%);
+        pointer-events: none;
+    }
+
+    .tech-icon { font-size: 2.8rem; margin-bottom: 1rem; display: block; }
+
+    .tech-cat {
+        display: inline-block;
+        padding: 3px 12px;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        background: rgba(225,6,0,0.12);
+        color: #ff6b6b;
+        border: 1px solid rgba(225,6,0,0.25);
+        margin-bottom: 0.8rem;
+    }
+
+    .tech-title {
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.8rem;
+    }
+
+    .tech-desc { font-size: 0.92rem; color: var(--clr-muted); line-height: 1.7; font-weight: 300; margin-bottom: 1.2rem; }
+
+    .tech-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1rem;
+        border-top: 1px solid var(--clr-border);
+    }
+    .tech-year { font-family: var(--font-display); font-size: 0.75rem; color: var(--clr-muted); letter-spacing: 1px; }
+    .tech-impact { font-size: 0.8rem; color: var(--clr-gold); font-weight: 600; text-align: right; max-width: 160px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="page-hero fade-in">
+    <span class="label">Ingeniería Extrema</span>
+    <h1>INNOVACIÓN <em>TECH</em></h1>
+    <p>Las tecnologías que hacen de la Fórmula 1 el laboratorio automotriz más avanzado del mundo.</p>
+</div>
+
+<div class="section-header fade-in">
+    <h2>TECNOLOGÍAS</h2>
+    <span>{{ technologies | length }} innovaciones documentadas</span>
+</div>
+
+<div class="grid-3 fade-in fade-in-d1">
+{% for tech in technologies %}
+<div class="tech-card">
+    <span class="tech-icon">{{ tech.icon }}</span>
+    <span class="tech-cat">{{ tech.category }}</span>
+    <div class="tech-title">{{ tech.title }}</div>
+    <p class="tech-desc">{{ tech.description }}</p>
+    <div class="tech-footer">
+        <span class="tech-year">DESDE {{ tech.year }}</span>
+        <span class="tech-impact">{{ tech.impact }}</span>
+    </div>
+</div>
+{% endfor %}
+</div>
+
+{% endblock %}

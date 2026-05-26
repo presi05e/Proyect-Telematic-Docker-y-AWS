@@ -1,0 +1,268 @@
+{% extends "base.html" %}
+{% block title %}F1 Tech Hub — Inicio{% endblock %}
+
+{% block extra_style %}
+<style>
+    /* ── HERO ── */
+    .hero {
+        position: relative;
+        text-align: center;
+        padding: 5rem 1rem 4rem;
+        overflow: hidden;
+    }
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 700px; height: 400px;
+        background: radial-gradient(ellipse, rgba(225,6,0,0.12) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .hero-label {
+        display: inline-block;
+        font-family: var(--font-display);
+        font-size: 0.6rem;
+        letter-spacing: 5px;
+        color: var(--clr-accent);
+        text-transform: uppercase;
+        background: rgba(225,6,0,0.08);
+        border: 1px solid rgba(225,6,0,0.25);
+        padding: 5px 20px;
+        border-radius: 999px;
+        margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 6.5rem);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -3px;
+        margin-bottom: 1.5rem;
+    }
+    .hero h1 .line-red  { color: var(--clr-accent); display: block; }
+    .hero h1 .line-main { color: var(--clr-text);   display: block; }
+
+    .hero-sub {
+        color: var(--clr-muted);
+        font-size: 1.2rem;
+        max-width: 560px;
+        margin: 0 auto 2.5rem;
+        font-weight: 300;
+    }
+
+    .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--clr-accent);
+        color: white;
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 14px 32px;
+        border-radius: var(--radius);
+        transition: background var(--transition), transform var(--transition);
+    }
+    .hero-cta:hover { background: #c00; transform: translateY(-2px); }
+
+    .hero-cta-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--clr-text);
+        font-family: var(--font-display);
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 14px 32px;
+        border-radius: var(--radius);
+        border: 1px solid var(--clr-border);
+        margin-left: 1rem;
+        transition: border-color var(--transition), transform var(--transition);
+    }
+    .hero-cta-ghost:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1px;
+        background: var(--clr-border);
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin: 3rem 0;
+    }
+    .stat-item {
+        background: var(--clr-card);
+        padding: 1.8rem 1.2rem;
+        text-align: center;
+        transition: background var(--transition);
+    }
+    .stat-item:hover { background: #1c1c28; }
+    .stat-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .stat-value {
+        font-family: var(--font-display);
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: var(--clr-accent);
+        line-height: 1;
+    }
+    .stat-unit { font-size: 0.8rem; color: var(--clr-muted); margin-left: 2px; }
+    .stat-label { font-size: 0.8rem; color: var(--clr-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* ── FEATURE CARDS ── */
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+    .feature-card {
+        background: var(--clr-card);
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius);
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        transition: border-color var(--transition), transform var(--transition);
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(225,6,0,0.05) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity var(--transition);
+    }
+    .feature-card:hover { border-color: rgba(225,6,0,0.4); transform: translateY(-4px); }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .feature-card h3 {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 0.75rem;
+    }
+    .feature-card p { font-size: 0.95rem; color: var(--clr-muted); line-height: 1.6; font-weight: 300; }
+    .feature-count { margin-top: 1.5rem; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--clr-accent); font-weight: 600; }
+
+    /* ── API INFO ── */
+    .api-section {
+        margin-top: 4rem;
+        background: var(--clr-card);
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius);
+        padding: 2.5rem;
+    }
+    .api-section h2 { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 1.5rem; }
+    .api-endpoints { display: flex; flex-direction: column; gap: 0.8rem; }
+    .endpoint {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(0,0,0,0.3);
+        border: 1px solid var(--clr-border);
+        border-radius: 6px;
+        padding: 0.8rem 1.2rem;
+        font-family: monospace;
+        font-size: 0.9rem;
+    }
+    .method { font-weight: 700; color: var(--clr-accent2); min-width: 45px; }
+    .path { color: var(--clr-gold); }
+    .ep-desc { color: var(--clr-muted); margin-left: auto; font-size: 0.8rem; font-family: var(--font-body); }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+<section class="hero fade-in">
+    <span class="hero-label">🏁 Temporada 2024</span>
+    <h1>
+        <span class="line-main">VELOCIDAD &</span>
+        <span class="line-red">TECNOLOGÍA</span>
+    </h1>
+    <p class="hero-sub">
+        El epicentro de la innovación automotriz más extrema del planeta.
+        Datos, ingeniería y pasión por la Fórmula 1.
+    </p>
+    <div>
+        <a href="/teams"      class="hero-cta">Ver Equipos →</a>
+        <a href="/technology" class="hero-cta-ghost">Tecnología</a>
+    </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar fade-in fade-in-d1">
+    {% for s in stats %}
+    <div class="stat-item">
+        <div class="stat-icon">{{ s.icon }}</div>
+        <div class="stat-value">{{ s.value }}<span class="stat-unit">{{ s.unit }}</span></div>
+        <div class="stat-label">{{ s.label }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- FEATURE CARDS -->
+<div class="section-header fade-in fade-in-d2">
+    <h2>EXPLORAR</h2>
+    <span>Todo sobre F1 en un solo lugar</span>
+</div>
+
+<div class="feature-grid fade-in fade-in-d2">
+    <a href="/teams" class="feature-card">
+        <div class="feature-icon">🏎️</div>
+        <h3>EQUIPOS F1</h3>
+        <p>Conoce los constructores, sus pilotos, motores y las innovaciones que los hacen únicos en la parrilla.</p>
+        <div class="feature-count">{{ teams_count }} equipos disponibles →</div>
+    </a>
+
+    <a href="/technology" class="feature-card">
+        <div class="feature-icon">🔬</div>
+        <h3>INNOVACIÓN TECH</h3>
+        <p>Desde el MGU-H hasta la telemetría con IA. Descubre las tecnologías que definen el límite de la ingeniería.</p>
+        <div class="feature-count">{{ tech_count }} tecnologías →</div>
+    </a>
+
+    <a href="/api/teams" class="feature-card" target="_blank">
+        <div class="feature-icon">📡</div>
+        <h3>API REST</h3>
+        <p>Todos los datos disponibles como servicio telemático consumible. JSON estructurado y listo para integrar.</p>
+        <div class="feature-count">Explorar API →</div>
+    </a>
+</div>
+
+<!-- API INFO -->
+<div class="api-section fade-in fade-in-d3">
+    <h2>⚙️ ENDPOINTS DISPONIBLES</h2>
+    <div class="api-endpoints">
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <span class="path">/api/teams</span>
+            <span class="ep-desc">Lista completa de equipos F1</span>
+        </div>
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <span class="path">/api/technologies</span>
+            <span class="ep-desc">Catálogo de innovaciones tecnológicas</span>
+        </div>
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <span class="path">/api/health</span>
+            <span class="ep-desc">Health check para monitoreo del contenedor</span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
